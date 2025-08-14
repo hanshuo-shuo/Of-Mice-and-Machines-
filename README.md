@@ -1,6 +1,6 @@
 # Of Mice and Machines: A Comparison of Learning Between Real World Mice and RL Agents
 
-Major Code for ICML 2025: Of Mice and Machines: A Comparison of Learning Between Real World Mice and RL Agents
+Major Code paper: Of Mice and Machines: A Comparison of Learning Between Real World Mice and RL Agents
 
 
 Env code based on: Cellworld_game,  https://github.com/germanespinosa/cellworld_game
