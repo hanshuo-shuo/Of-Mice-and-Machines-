@@ -1,0 +1,15 @@
+MODEL_SIZE = {
+	1:   {'enc_dim': 64,
+		  'mlp_dim': 96,
+		  'latent_dim': 32,
+		  'num_enc_layers': 2},
+	3:   {'enc_dim': 256,
+		  'mlp_dim': 384,
+		  'latent_dim': 128,
+		  'num_enc_layers': 2,
+		  'num_q': 2},
+	5:   {'enc_dim': 256,
+		  'mlp_dim': 512,
+		  'latent_dim': 512,
+		  'num_enc_layers': 2},
+}
