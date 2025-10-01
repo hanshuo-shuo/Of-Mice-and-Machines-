@@ -9,8 +9,8 @@ exp_name: vp-tdmpc2-0.2
 
 # evaluation
 checkpoint: None
-eval_episodes: 100
-eval_freq: 4000
+eval_episodes: 10
+eval_freq: 1000
 
 negative_amplification: 200
 # memory_amplification: 0.35 This won't be used in the long term training, only for short time training(As in the paper)
