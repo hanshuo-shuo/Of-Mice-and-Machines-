@@ -1,0 +1,1 @@
+Although this is not our main research conclusion, it just shows how to train this environment using model-free methods. We used Stable Baselines which can solve this environment quite simply.

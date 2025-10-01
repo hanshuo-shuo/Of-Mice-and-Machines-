@@ -236,46 +236,46 @@ class TDMPC2:
 
         return pi_loss.item()
 
-    @torch.no_grad()
-    def variance_penalty(self, next_z, task):
-        """
-        Calculate variance penalty based on Q-values across action space.
+    # @torch.no_grad()
+    # def variance_penalty(self, next_z, task):
+    #     """
+    #     Calculate variance penalty based on Q-values across action space.
         
-        Args:
-            next_z (torch.Tensor): Next latent state
-            task (torch.Tensor): Task index
+    #     Args:
+    #         next_z (torch.Tensor): Next latent state
+    #         task (torch.Tensor): Task index
             
-        Returns:
-            torch.Tensor: Variance penalty value
-        """
-        batch_size = 1
-        grid_size = 30
+    #     Returns:
+    #         torch.Tensor: Variance penalty value
+    #     """
+    #     batch_size = 1
+    #     grid_size = 30
         
-        # Create 2D action grid
-        x = torch.linspace(0, 1, grid_size, device=self.device)
-        y = torch.linspace(0, 1, grid_size, device=self.device)
-        xx, yy = torch.meshgrid(x, y, indexing='ij')
+    #     # Create 2D action grid
+    #     x = torch.linspace(0, 1, grid_size, device=self.device)
+    #     y = torch.linspace(0, 1, grid_size, device=self.device)
+    #     xx, yy = torch.meshgrid(x, y, indexing='ij')
         
-        # Create action samples with random third dimension
-        grid_actions = torch.stack([
-            xx.flatten(),
-            yy.flatten(),
-            torch.rand(xx.flatten().shape, device=self.device)
-        ], dim=1)
+    #     # Create action samples with random third dimension
+    #     grid_actions = torch.stack([
+    #         xx.flatten(),
+    #         yy.flatten(),
+    #         torch.rand(xx.flatten().shape, device=self.device)
+    #     ], dim=1)
 
-        # Expand latent state to match grid size
-        current_z = next_z
-        z_expanded = current_z.unsqueeze(1).expand(-1, grid_size*grid_size, -1)
-        z_flat = z_expanded.reshape(-1, current_z.shape[-1])
-        grid_actions_flat = grid_actions.unsqueeze(0).expand(batch_size, -1, -1).reshape(-1, 3)
+    #     # Expand latent state to match grid size
+    #     current_z = next_z
+    #     z_expanded = current_z.unsqueeze(1).expand(-1, grid_size*grid_size, -1)
+    #     z_flat = z_expanded.reshape(-1, current_z.shape[-1])
+    #     grid_actions_flat = grid_actions.unsqueeze(0).expand(batch_size, -1, -1).reshape(-1, 3)
 
-        # Get Q-values and compute variance
-        grid_q_values = self.model.Q(z_flat, grid_actions_flat, task, return_type='all')
-        grid_q_values = torch.stack([math.two_hot_inv(q, self.cfg) for q in grid_q_values])
-        grid_q_values = grid_q_values.view(self.cfg.num_q, batch_size, grid_size*grid_size)
-        variance_penalty = torch.var(grid_q_values, dim=(0, 2))
+    #     # Get Q-values and compute variance
+    #     grid_q_values = self.model.Q(z_flat, grid_actions_flat, task, return_type='all')
+    #     grid_q_values = torch.stack([math.two_hot_inv(q, self.cfg) for q in grid_q_values])
+    #     grid_q_values = grid_q_values.view(self.cfg.num_q, batch_size, grid_size*grid_size)
+    #     variance_penalty = torch.var(grid_q_values, dim=(0, 2))
 
-        return variance_penalty
+    #     return variance_penalty
 
     @torch.no_grad()
     def _td_target(self, next_z, reward, task):
@@ -309,7 +309,7 @@ class TDMPC2:
         xx, yy = torch.meshgrid(x, y, indexing='ij')
         
         # Can sample actions from either space:
-        # Waiting/peeking space (third dim = 1)
+        # Waiting space (third dim = 1)
         grid_actions = torch.stack([
             xx.flatten(),
             yy.flatten(),

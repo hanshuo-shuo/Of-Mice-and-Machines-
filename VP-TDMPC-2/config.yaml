@@ -13,7 +13,7 @@ eval_episodes: 100
 eval_freq: 4000
 
 negative_amplification: 200
-memory_amplification: 0.35
+# memory_amplification: 0.35 This won't be used in the long term training, only for short time training(As in the paper)
 
 # vp-tdmpc2 penalty
 penalty_coefficient: 0.2

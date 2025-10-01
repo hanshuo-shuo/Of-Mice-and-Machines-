@@ -249,7 +249,7 @@ class PTSDBuffer():
 	"""
     Create a trauma-focused replay buffer that emphasizes negative experiences.
     and negative rewards will be amplified.
-	In the short time training, ptsd2 is better than ptsd1, but in the long term, ptsd1 is better than ptsd2.
+	In the short time training, ptsd2 is better than ptsd, but in the long term, ptsd is better than ptsd2.
 	"""
 
 	def __init__(self, cfg):

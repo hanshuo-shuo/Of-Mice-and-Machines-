@@ -6,15 +6,8 @@ import gymnasium
 import cellworld_gym as cwg
 from stable_baselines3 import SAC, DQN
 from stable_baselines3.common.buffers import ReplayBuffer
-from ptsdbuffer import PTSDReplayBuffer, PTSDReplayBuffer_add
 from callback import CellworldCallback
-from wrapper import (
-    uncertainty_wrapper,
-    safe_planning_wrapper,
-    uncertainty_wrapper_predator,
-    uncertainty_wrapper_predator_2,
-    wait_wrapper
-)
+from wrapper import myprey_wrapper
 from PIL import Image
 from cellworld_game.video import save_video_output
 import numpy as np
@@ -85,7 +78,7 @@ def make_env(discrete=False):
 
 def test_random_agent(env, num_steps=1000):
     """Test environment with random actions."""
-    env = uncertainty_wrapper_predator(env)
+    env = myprey_wrapper(env)
     obs, _ = env.reset()
     
     for _ in range(num_steps):

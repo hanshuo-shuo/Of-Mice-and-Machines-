@@ -34,9 +34,11 @@ class MypreyWrapper(gym.Wrapper):
         obs, reward, done,  _, info = self.env.step(action)
         obs = obs.astype(np.float32)
         new_obs = obs.copy()
+        # delete the last 4 dimensions, which is the prey predator distance
         new_obs = np.delete(new_obs, -4)
-            
-        return new_obs, reward, done, info
+        # set done to False becasue tdmpc2 needs episode to be the same length
+        # we can set done to normal during evaluation
+        return new_obs, reward, False, info
 
     @property
     def unwrapped(self):
@@ -60,41 +62,3 @@ class MypreyWrapper(gym.Wrapper):
         new_x = np.clip(current_x + noise_x, 0.0, 1.0)
         new_y = np.clip(current_y + noise_y, 0.0, 1.0)
         return tuple((new_x, new_y))
-    
-
-
-class MypreyWrapper_2(gym.Wrapper):
-    def __init__(self, env, cfg):
-        super().__init__(env)
-        self.env = env
-        self.cfg = cfg
-        self.model = env.model
-        self.observation_space = gym.spaces.Box(
-            low=0.0, 
-            high=1.0, 
-            shape=(11,), 
-            dtype=np.float32
-        )
-        self.action_space = gym.spaces.Box(
-            low=0.0, 
-            high=1.0, 
-            shape=(2,),  
-            dtype=np.float32
-        )
-
-    def step(self, action):
-        obs, reward, done,  _, info = self.env.step(action.copy())
-        obs = obs.astype(np.float32)
-        return obs, reward, False, info
-
-    @property
-    def unwrapped(self):
-        return self.env.unwrapped
-
-    def render(self, *args, **kwargs):
-        return self.env.render()
-
-    def reset(self, seed=None):
-        obs, _ = self.env.reset()
-        obs = obs.astype(np.float32)
-        return obs
